@@ -3,8 +3,8 @@ const cheerio = require("cheerio");
 
 var app = express();
 
-app.get("/api/game/:game", async (req, res) => {
-  let target = req.params.game.toLocaleLowerCase();
+app.get("/api/game/:game", async (req: any, res: any) => {
+  let target: string = req.params.game.toLocaleLowerCase();
 
   let kinguinUrl =
     "https://www.kinguin.net/listing?platforms=2&productType=1&countries=ES&active=1&hideUnavailable=0&phrase=TARGET_TO_SEARCH&page=0&size=50&sort=price.lowestOffer,ASC";
@@ -21,13 +21,13 @@ app.get("/api/game/:game", async (req, res) => {
 
 app.listen(3000);
 
-function kinguinParser(scrap, target) {
-  let items = [];
+function kinguinParser(scrap: any, target: string) {
+  let items: any = [];
   // Find all div elements with a data-example attribute of "1" using the attribute selector
   const scrappedItems = scrap("div[itemscope]");
 
   // Iterate over each div element with a data-example attribute of "1" and print its text content
-  scrappedItems.each((i, scrappedItem) => {
+  scrappedItems.each((i: any, scrappedItem: any) => {
     // <h3 itemprop="name" title=
     // items.push(scrap(scrappedItem).html());
 
@@ -48,10 +48,10 @@ function kinguinParser(scrap, target) {
     let priceProp = "";
     scrap(scrappedItem)
       .find('div[itemprop="offers"]')
-      .each((i, offersProp) => {
+      .each((i: any, offersProp: any) => {
         scrap(offersProp)
           .find('span[itemprop="lowPrice"]')
-          .each((i, lowPriceProp) => {
+          .each((i: any, lowPriceProp: any) => {
             priceProp = scrap(lowPriceProp).text();
           });
       });
@@ -65,7 +65,7 @@ function kinguinParser(scrap, target) {
   return items;
 }
 
-async function getHTML(url) {
+async function getHTML(url: string) {
   // Make request
   return await fetch(url, {
     headers: {
