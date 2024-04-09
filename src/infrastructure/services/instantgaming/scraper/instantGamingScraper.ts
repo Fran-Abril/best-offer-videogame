@@ -1,4 +1,4 @@
-import { Scraper } from "../../../../domain/specification/adapter/scraper";
+import { Scraper } from "../../../../domain/specification/scraper/scraper";
 import { InstantGamingFetcher } from "../fetcher/instantGamingFetcher";
 import { Item } from "../../../../domain/models/item/item";
 

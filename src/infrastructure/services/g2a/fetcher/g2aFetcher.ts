@@ -1,4 +1,4 @@
-import { Fetcher } from "../../../../domain/specification/adapter/fetcher";
+import { Fetcher } from "../../../../domain/specification/fetcher/fetcher";
 
 /**
  * The Parser defines the domain-specific interface used by parse webStore HTML.

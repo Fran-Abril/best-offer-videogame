@@ -1,21 +1,26 @@
-import { Scraper } from "../../../../domain/specification/adapter/scraper";
+import { Scraper } from "../../../../domain/specification/scraper/scraper";
 import { KinguinFetcher } from "../fetcher/kinguinFetcher";
-import { Item } from "../../../../domain/models/item/item";
 import { WebSite } from "../../../../domain/models/website/webSite";
+import { AbstractScraper } from "../../../../domain/specification/scraper/abstractScraper";
+import { KinguinWebSiteBuilder } from "../builder/kinguinWebSiteBuilder";
+import { KinguinUrlBuilder } from "../builder/kinguinUrlBuilder";
 
 /**
  * The Scraper defines the domain-specific interface used by scrap html web stores.
  */
-export class KinguinScraper implements Scraper {
-  items: Item[] = [];
+export class KinguinScraper extends AbstractScraper implements Scraper {
+  constructor(cheerio: any, target: string) {
+    super(
+      cheerio,
+      new KinguinFetcher(),
+      new KinguinUrlBuilder(target),
+      new KinguinWebSiteBuilder()
+    );
+  }
 
-  async scrap(
-    cheerio: any,
-    fetcher: KinguinFetcher,
-    target: string
-  ): Promise<WebSite> {
-    await fetcher.fetch(target).then((html) => {
-      let scrap = cheerio.load(html);
+  async scrap(): Promise<WebSite> {
+    await this.fetcher.fetch(this.urlBuilder.build()).then((html) => {
+      let scrap = this.cheerio.load(html);
 
       // Find all div elements with a itemscope attribute using the attribute selector
       const scrappedItems = scrap("div[itemscope]");
@@ -34,7 +39,9 @@ export class KinguinScraper implements Scraper {
         if (
           nameProp === null ||
           nameProp === "" ||
-          !nameProp.toLowerCase().includes(target.toLowerCase())
+          !nameProp
+            .toLowerCase()
+            .includes(this.urlBuilder.getTarget().toLowerCase())
         ) {
           return;
         }
@@ -50,13 +57,10 @@ export class KinguinScraper implements Scraper {
               });
           });
 
-        this.items.push({
-          name: nameProp,
-          price: priceProp,
-        });
+        this.push(nameProp, priceProp);
       });
     });
 
-    return { web: "Kinguin", items: this.items, total: this.items.length };
+    return this.build();
   }
 }

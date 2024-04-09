@@ -1,4 +1,4 @@
-import { Scraper } from "../../../../domain/specification/adapter/scraper";
+import { Scraper } from "../../../../domain/specification/scraper/scraper";
 import { SteamDBFetcher } from "../fetcher/steamDBFetcher";
 import { Item } from "../../../../domain/models/item/item";
 

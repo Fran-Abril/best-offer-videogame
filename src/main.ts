@@ -1,6 +1,5 @@
 import { WebSite } from "./domain/models/website/webSite";
 import { CompatibleWebSites } from "./domain/models/website/compatibleWebSites";
-import { KinguinFetcher } from "./infrastructure/services/kinguin/fetcher/kinguinFetcher";
 import { KinguinScraper } from "./infrastructure/services/kinguin/scraper/kinguinScraper";
 
 const express = require("express");
@@ -14,12 +13,9 @@ app.get("/api/game/:game", async (req: any, res: any) => {
   let webSite: string[] = req.query.webSite.split(",");
   let response: WebSite[] = [];
 
-  //TODO: move this to service
-  await new KinguinScraper()
-    .scrap(cheerio, new KinguinFetcher(), target)
-    .then((webSite) => {
-      response.push(webSite);
-    });
+  await new KinguinScraper(cheerio, target).scrap().then((webSite) => {
+    response.push(webSite);
+  });
 
   res.json(response);
 });

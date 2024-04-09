@@ -1,15 +1,12 @@
-import { Fetcher } from "../../../../domain/specification/adapter/fetcher";
+import { Fetcher } from "../../../../domain/specification/fetcher/fetcher";
 
 /**
  * The Parser defines the domain-specific interface used by parse webStore HTML.
  */
 export class KinguinFetcher implements Fetcher {
+  // TODO: use KinguinUrlBuilder
   async fetch(target: string): Promise<string | void> {
-    let kinguinUrl =
-      "https://www.kinguin.net/listing?platforms=2&productType=1&countries=ES&active=1&hideUnavailable=0&phrase=TARGET_TO_SEARCH&page=0&size=50&sort=price.lowestOffer,ASC";
-    kinguinUrl = kinguinUrl.replace("TARGET_TO_SEARCH", encodeURI(target));
-
-    return await fetch(kinguinUrl, {
+    return await fetch(target, {
       headers: {
         accept:
           "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
