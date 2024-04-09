@@ -2,9 +2,9 @@
   "name": "best-offer-videogame",
   "version": "1.0.0",
   "description": "Web store price comparison and purchase history tool for finding video games at the best price.",
-  "main": "index.ts",
+  "main": "main.ts",
   "scripts": {
-    "dev": "nodemon --watch index.js"
+    "dev": "nodemon --watch src src/main.ts"
   },
   "author": "",
   "license": "ISC",
