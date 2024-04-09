@@ -1,39 +1,22 @@
 const express = require("express");
-const cors = require("cors");
 const cheerio = require("cheerio");
-const axios = require("axios");
-const wrapper = require("axios-cookiejar-support");
-const CookieJar = require("tough-cookie");
 
 var app = express();
 
-app.use(cors());
-
-const jar = new CookieJar.CookieJar();
-const client = wrapper.wrapper(axios.create({ jar }));
-
-app.get("/game/findByGameDescription", async (req, res) => {
-  res.send("gameDescription " + req.query.gameDescription);
-});
-
-app.get("/game/findByWebSite", async (req, res) => {
-  let target = req.query.webSite.toLocaleLowerCase();
+app.get("/api/game/:game", async (req, res) => {
+  let target = req.params.game.toLocaleLowerCase();
 
   let kinguinUrl =
     "https://www.kinguin.net/listing?platforms=2&productType=1&countries=ES&active=1&hideUnavailable=0&phrase=TARGET_TO_SEARCH&page=0&size=50&sort=price.lowestOffer,ASC";
   kinguinUrl = kinguinUrl.replace("TARGET_TO_SEARCH", encodeURI(target));
-
-  console.log(kinguinUrl);
 
   const html = await getHTML(kinguinUrl);
 
   let scrap = cheerio.load(html);
 
   let items = kinguinParser(scrap, target);
-  console.log(items);
-  console.log("total items", items.length);
 
-  res.json(items);
+  res.json({ web: "kinguin", total: items.length, items: items });
 });
 
 app.listen(3000);
