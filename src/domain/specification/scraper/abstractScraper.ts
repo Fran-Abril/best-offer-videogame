@@ -27,6 +27,6 @@ export abstract class AbstractScraper {
   }
 
   public build(): WebSite {
-    return this.builder.build();
+    return this.builder.build(this.urlBuilder.build());
   }
 }

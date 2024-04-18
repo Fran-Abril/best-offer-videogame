@@ -4,7 +4,6 @@ import { Fetcher } from "../../../../domain/specification/fetcher/fetcher";
  * The Parser defines the domain-specific interface used by parse webStore HTML.
  */
 export class KinguinFetcher implements Fetcher {
-  // TODO: use KinguinUrlBuilder
   async fetch(target: string): Promise<string | void> {
     return await fetch(target, {
       headers: {

@@ -1,6 +1,7 @@
 import { WebSite } from "./domain/models/website/webSite";
 import { CompatibleWebSites } from "./domain/models/website/compatibleWebSites";
 import { KinguinScraper } from "./infrastructure/services/kinguin/scraper/kinguinScraper";
+import { GamivoScraper } from "./infrastructure/services/gamivo/scraper/gamivoScraper";
 
 const express = require("express");
 const cheerio = require("cheerio");
@@ -13,6 +14,9 @@ app.get("/api/game/:game", async (req: any, res: any) => {
   let webSite: string[] = req.query.webSite.split(",");
   let response: WebSite[] = [];
 
+  await new GamivoScraper(cheerio, target).scrap().then((webSite) => {
+    response.push(webSite);
+  });
   await new KinguinScraper(cheerio, target).scrap().then((webSite) => {
     response.push(webSite);
   });

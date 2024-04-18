@@ -16,7 +16,12 @@ export abstract class WebSiteBuilder {
     });
   }
 
-  public build(): WebSite {
-    return { web: this.web, items: this.items, total: this.items.length };
+  public build(search: string): WebSite {
+    return {
+      web: this.web,
+      items: this.items,
+      total: this.items.length,
+      search: search,
+    };
   }
 }
