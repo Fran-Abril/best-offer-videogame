@@ -3,6 +3,7 @@ import { CompatibleWebSites } from "./domain/models/website/compatibleWebSites";
 import { KinguinScraper } from "./infrastructure/services/kinguin/scraper/kinguinScraper";
 import { GamivoScraper } from "./infrastructure/services/gamivo/scraper/gamivoScraper";
 import { InstantGamingScraper } from "./infrastructure/services/instantgaming/scraper/instantGamingScraper";
+import { G2AScraper } from "./infrastructure/services/g2a/scraper/g2aScraper";
 
 const express = require("express");
 const cheerio = require("cheerio");
@@ -15,6 +16,9 @@ app.get("/api/game/:game", async (req: any, res: any) => {
   let webSite: string[] = req.query.webSite.split(",");
   let response: WebSite[] = [];
 
+  await new G2AScraper(cheerio, target).scrap().then((webSite) => {
+    response.push(webSite);
+  });
   await new InstantGamingScraper(cheerio, target).scrap().then((webSite) => {
     response.push(webSite);
   });
