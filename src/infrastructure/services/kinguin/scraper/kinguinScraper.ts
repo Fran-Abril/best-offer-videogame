@@ -19,8 +19,10 @@ export class KinguinScraper extends AbstractScraper implements Scraper {
   }
 
   async scrap(): Promise<WebSite> {
-    await this.fetcher.fetch(this.urlBuilder.build()).then((html) => {
-      let scrap = this.cheerio.load(html);
+    const search = this.urlBuilder.build();
+
+    await this.fetcher.fetch(search).then((html) => {
+      const scrap = this.cheerio.load(html);
 
       // Find all div elements with a itemscope attribute using the attribute selector
       const scrappedItems = scrap("div[itemscope]");
