@@ -3,5 +3,6 @@
  */
 export interface UrlBuilder {
   getTarget(): string;
+  getUrl(): string;
   build(): string;
 }
