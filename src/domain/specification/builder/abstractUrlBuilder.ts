@@ -2,7 +2,7 @@
  * The Builder defines the domain-specific interface used to build the url of the specific web site.
  */
 export abstract class AbstractUrlBuilder {
-  public target: string;
+  protected target: string;
 
   protected url: string;
 
