@@ -33,7 +33,6 @@ export class G2AFetcher implements Fetcher {
       })
       .then(function (html) {
         // This is the HTML from our response as a text string
-        // console.log(html);
         return html;
       })
       .catch(function (err) {
